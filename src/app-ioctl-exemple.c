@@ -80,24 +80,36 @@ int main(int argc, char** argv)
                     //14 é o fá
 				printf("botao 4\n");
 				Mix_PlayChannel(2, Notes[3], 0);
+                unsigned int data_display_direita = 0x40404040;
+	            ioctl(fd, WR_R_DISPLAY);
+	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar F no D7
 			}
 			if(data_push == 13){
                     //13 é o mi
 				printf("botao 3\n");
 				Mix_PlayChannel(2, Notes[2], 0);
+                unsigned int data_display_direita = 0x40404040;
+	            ioctl(fd, WR_R_DISPLAY);
+	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar E no D7
 			}
 		if(data_push == 11){
                     //11 é o ré
 				printf("botao 2\n");
 				Mix_PlayChannel(2, Notes[1], 0);
+                unsigned int data_display_direita = 0x40404040;
+	            ioctl(fd, WR_R_DISPLAY);
+	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar D no D7
 			}
 			if(data_push == 7){
                     //7 é o dó
 				printf("botao 1\n");
 				Mix_PlayChannel(2, Notes[0], 0);
+                unsigned int data_display_direita = 0x40404040;
+	            ioctl(fd, WR_R_DISPLAY);
+	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar C no D7
 			}
 			
@@ -113,22 +125,34 @@ int main(int argc, char** argv)
 			
 				if(data_push == 14){
 					Mix_PlayChannel(2, NotesStretched[3], 0);
+                    unsigned int data_display_direita = 0x40404040;
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar F no D7
 				}
 				if(data_push == 13){
 					Mix_PlayChannel(2, NotesStretched[2], 0);
+                    unsigned int data_display_direita = 0x40404040;
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar E no D7
 				}
 				if(data_push == 11){
 					Mix_PlayChannel(2, NotesStretched[1], 0);
+                    unsigned int data_display_direita = 0x40404040;
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar D no D7
 				}
 				if(data_push == 7){
 					Mix_PlayChannel(2, NotesStretched[0], 0);
+                    unsigned int data_display_direita = 0x40404040;
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar C no D7
 				}
 			}
-        	sleep(2);
+        	sleep(1);
 	}
 
 	close(fd);
