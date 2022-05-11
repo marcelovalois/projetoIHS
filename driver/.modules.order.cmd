@@ -1,0 +1,1 @@
+cmd_/home/de2i-150/projetoIHS/driver/modules.order := {   echo /home/de2i-150/projetoIHS/driver/driver-de2i-150-ioctl-exemple.ko; :; } | awk '!x[$$0]++' - > /home/de2i-150/projetoIHS/driver/modules.order

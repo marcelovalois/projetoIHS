@@ -1,0 +1,1 @@
+cmd_/home/de2i-150/projetoIHS/driver/Module.symvers := sed 's/\.ko$$/\.o/' /home/de2i-150/projetoIHS/driver/modules.order | scripts/mod/modpost    -o /home/de2i-150/projetoIHS/driver/Module.symvers -e -i Module.symvers   -T -
