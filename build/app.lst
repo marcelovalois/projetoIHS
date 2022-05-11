@@ -29,15 +29,15 @@ Idx Name          Tam.      VMA               LMA               File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
  12 .plt          000000e0  0000000000401020  0000000000401020  00001020  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 13 .text         000004e5  0000000000401100  0000000000401100  00001100  2**4
+ 13 .text         00000605  0000000000401100  0000000000401100  00001100  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 14 .fini         0000000d  00000000004015e8  00000000004015e8  000015e8  2**2
+ 14 .fini         0000000d  0000000000401708  0000000000401708  00001708  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
  15 .rodata       0000010f  0000000000402000  0000000000402000  00002000  2**3
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
  16 .eh_frame_hdr 0000003c  0000000000402110  0000000000402110  00002110  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
- 17 .eh_frame     000000d0  0000000000402150  0000000000402150  00002150  2**3
+ 17 .eh_frame     000000d4  0000000000402150  0000000000402150  00002150  2**3
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
  18 .init_array   00000008  0000000000403db0  0000000000403db0  00002db0  2**3
                   CONTENTS, ALLOC, LOAD, DATA
@@ -59,19 +59,19 @@ Idx Name          Tam.      VMA               LMA               File off  Algn
                   CONTENTS, READONLY, OCTETS
  27 .debug_aranges 00000040  0000000000000000  0000000000000000  00004dd0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 28 .debug_info   00000ef2  0000000000000000  0000000000000000  00004e10  2**0
+ 28 .debug_info   000011f4  0000000000000000  0000000000000000  00004e10  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 29 .debug_abbrev 00000268  0000000000000000  0000000000000000  00005d02  2**0
+ 29 .debug_abbrev 00000273  0000000000000000  0000000000000000  00006004  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 30 .debug_line   000002b7  0000000000000000  0000000000000000  00005f6a  2**0
+ 30 .debug_line   00000355  0000000000000000  0000000000000000  00006277  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 31 .debug_str    000004af  0000000000000000  0000000000000000  00006221  2**0
+ 31 .debug_str    000004da  0000000000000000  0000000000000000  000065cc  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 32 .debug_line_str 00000152  0000000000000000  0000000000000000  000066d0  2**0
+ 32 .debug_line_str 00000152  0000000000000000  0000000000000000  00006aa6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 33 .debug_loclists 000000e7  0000000000000000  0000000000000000  00006822  2**0
+ 33 .debug_loclists 000000e7  0000000000000000  0000000000000000  00006bf8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 34 .debug_rnglists 00000062  0000000000000000  0000000000000000  00006909  2**0
+ 34 .debug_rnglists 00000063  0000000000000000  0000000000000000  00006cdf  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Desmontagem da secção .init:
@@ -179,7 +179,7 @@ int main(int argc, char** argv)
     	Mix_Init(MIX_INIT_MID);
   401107:	bf 20 00 00 00       	mov    $0x20,%edi
 {
-  40110c:	48 83 ec 58          	sub    $0x58,%rsp
+  40110c:	48 83 ec 68          	sub    $0x68,%rsp
     	Mix_Init(MIX_INIT_MID);
   401110:	e8 8b ff ff ff       	call   4010a0 <Mix_Init@plt>
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
@@ -192,11 +192,11 @@ int main(int argc, char** argv)
 	Mix_Chunk *NotesStretched[NotesNUM];
 
 	LoadPiano(Notes);
-  40112e:	48 8d 7c 24 10       	lea    0x10(%rsp),%rdi
-  401133:	e8 98 03 00 00       	call   4014d0 <LoadPiano>
+  40112e:	48 8d 7c 24 20       	lea    0x20(%rsp),%rdi
+  401133:	e8 b8 04 00 00       	call   4015f0 <LoadPiano>
 	LoadPianoStretched(NotesStretched);
-  401138:	48 8d 7c 24 30       	lea    0x30(%rsp),%rdi
-  40113d:	e8 1e 04 00 00       	call   401560 <LoadPianoStretched>
+  401138:	48 8d 7c 24 40       	lea    0x40(%rsp),%rdi
+  40113d:	e8 3e 05 00 00       	call   401680 <LoadPianoStretched>
 
 	//while(1) {
 		//Mix_PlayChannel(2, Notes[3], 0);
@@ -204,7 +204,7 @@ int main(int argc, char** argv)
 
 	if (argc < 2) {
   401142:	83 fb 01             	cmp    $0x1,%ebx
-  401145:	0f 8e 54 02 00 00    	jle    40139f <main+0x29f>
+  401145:	0f 8e 7b 03 00 00    	jle    4014c6 <main+0x3c6>
 		printf("Syntax: %s <device file path>\n", argv[0]);
 		return -EINVAL;
 	}
@@ -217,7 +217,7 @@ int main(int argc, char** argv)
   40115b:	89 c3                	mov    %eax,%ebx
   40115d:	85 c0                	test   %eax,%eax
   40115f:	79 57                	jns    4011b8 <main+0xb8>
-  401161:	e9 55 02 00 00       	jmp    4013bb <main+0x2bb>
+  401161:	e9 7c 03 00 00       	jmp    4014e2 <main+0x3e2>
   401166:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
   40116d:	00 00 00 
         unsigned int data_switch = 0;
@@ -229,415 +229,521 @@ int main(int argc, char** argv)
   401170:	e8 3b ff ff ff       	call   4010b0 <ioctl@plt>
 	        read(fd, &data_push, 1);
   401175:	ba 01 00 00 00       	mov    $0x1,%edx
-  40117a:	48 8d 74 24 0c       	lea    0xc(%rsp),%rsi
+  40117a:	48 8d 74 24 18       	lea    0x18(%rsp),%rsi
   40117f:	89 df                	mov    %ebx,%edi
   401181:	e8 4a ff ff ff       	call   4010d0 <read@plt>
 	        
 			// Notas normais
 			if(data_push == 14){
-  401186:	8b 44 24 0c          	mov    0xc(%rsp),%eax
+  401186:	8b 44 24 18          	mov    0x18(%rsp),%eax
   40118a:	83 f8 0e             	cmp    $0xe,%eax
-  40118d:	0f 84 75 01 00 00    	je     401308 <main+0x208>
-                    //14 é o fá
-				printf("botao 4\n");
-				Mix_PlayChannel(2, Notes[3], 0);
+  40118d:	0f 84 fd 01 00 00    	je     401390 <main+0x290>
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar F no D7
+
 			}
 			if(data_push == 13){
   401193:	83 f8 0d             	cmp    $0xd,%eax
-  401196:	0f 84 3c 01 00 00    	je     4012d8 <main+0x1d8>
-                    //13 é o mi
-				printf("botao 3\n");
-				Mix_PlayChannel(2, Notes[2], 0);
+  401196:	0f 84 a4 01 00 00    	je     401340 <main+0x240>
+                unsigned int data_display_direita = 0xFFFFFF86;
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar E no D7
 			}
 		if(data_push == 11){
   40119c:	83 f8 0b             	cmp    $0xb,%eax
-  40119f:	0f 84 03 01 00 00    	je     4012a8 <main+0x1a8>
-                    //11 é o ré
-				printf("botao 2\n");
-				Mix_PlayChannel(2, Notes[1], 0);
+  40119f:	0f 84 4b 01 00 00    	je     4012f0 <main+0x1f0>
+                unsigned int data_display_direita = 0xFFFFFFA1;
+	            ioctl(fd, WR_R_DISPLAY);
+	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar D no D7
 			}
 			if(data_push == 7){
   4011a5:	83 f8 07             	cmp    $0x7,%eax
-  4011a8:	0f 84 d2 00 00 00    	je     401280 <main+0x180>
-				if(data_push == 7){
-					Mix_PlayChannel(2, NotesStretched[0], 0);
+  4011a8:	0f 84 22 01 00 00    	je     4012d0 <main+0x1d0>
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar C no D7
 				}
 			}
-        	sleep(2);
-  4011ae:	bf 02 00 00 00       	mov    $0x2,%edi
+        	sleep(1);
+  4011ae:	bf 01 00 00 00       	mov    $0x1,%edi
   4011b3:	e8 d8 fe ff ff       	call   401090 <sleep@plt>
 	    ioctl(fd, WR_GREEN_LEDS);
   4011b8:	be 66 61 00 00       	mov    $0x6166,%esi
   4011bd:	89 df                	mov    %ebx,%edi
   4011bf:	31 c0                	xor    %eax,%eax
         unsigned int data_green_led = 0xFFFFFFFF;
-  4011c1:	c7 44 24 04 ff ff ff 	movl   $0xffffffff,0x4(%rsp)
+  4011c1:	c7 44 24 0c ff ff ff 	movl   $0xffffffff,0xc(%rsp)
   4011c8:	ff 
 	    ioctl(fd, WR_GREEN_LEDS);
   4011c9:	e8 e2 fe ff ff       	call   4010b0 <ioctl@plt>
 	    write(fd, &data_green_led, sizeof(data_green_led));
   4011ce:	ba 04 00 00 00       	mov    $0x4,%edx
-  4011d3:	48 8d 74 24 04       	lea    0x4(%rsp),%rsi
+  4011d3:	48 8d 74 24 0c       	lea    0xc(%rsp),%rsi
   4011d8:	89 df                	mov    %ebx,%edi
   4011da:	e8 71 fe ff ff       	call   401050 <write@plt>
-		ioctl(fd, RD_SWITCHES);
-  4011df:	be 61 61 00 00       	mov    $0x6161,%esi
+	    ioctl(fd, WR_L_DISPLAY);
+  4011df:	be 63 61 00 00       	mov    $0x6163,%esi
   4011e4:	89 df                	mov    %ebx,%edi
   4011e6:	31 c0                	xor    %eax,%eax
-        unsigned int data_switch = 0;
-  4011e8:	c7 44 24 08 00 00 00 	movl   $0x0,0x8(%rsp)
-  4011ef:	00 
-		ioctl(fd, RD_SWITCHES);
+	    unsigned int data_display_esquerda = 0xFFFFFFFF;
+  4011e8:	c7 44 24 10 ff ff ff 	movl   $0xffffffff,0x10(%rsp)
+  4011ef:	ff 
+	    ioctl(fd, WR_L_DISPLAY);
   4011f0:	e8 bb fe ff ff       	call   4010b0 <ioctl@plt>
+	    retval = write(fd, &data_display_esquerda, sizeof(data_display_esquerda));
+  4011f5:	ba 04 00 00 00       	mov    $0x4,%edx
+  4011fa:	48 8d 74 24 10       	lea    0x10(%rsp),%rsi
+  4011ff:	89 df                	mov    %ebx,%edi
+  401201:	e8 4a fe ff ff       	call   401050 <write@plt>
+		ioctl(fd, RD_SWITCHES);
+  401206:	be 61 61 00 00       	mov    $0x6161,%esi
+  40120b:	89 df                	mov    %ebx,%edi
+  40120d:	31 c0                	xor    %eax,%eax
+        unsigned int data_switch = 0;
+  40120f:	c7 44 24 14 00 00 00 	movl   $0x0,0x14(%rsp)
+  401216:	00 
+		ioctl(fd, RD_SWITCHES);
+  401217:	e8 94 fe ff ff       	call   4010b0 <ioctl@plt>
 	    read(fd, &data_switch, 1);
-  4011f5:	48 8d 74 24 08       	lea    0x8(%rsp),%rsi
-  4011fa:	89 df                	mov    %ebx,%edi
-  4011fc:	ba 01 00 00 00       	mov    $0x1,%edx
-  401201:	e8 ca fe ff ff       	call   4010d0 <read@plt>
+  40121c:	48 8d 74 24 14       	lea    0x14(%rsp),%rsi
+  401221:	89 df                	mov    %ebx,%edi
+  401223:	ba 01 00 00 00       	mov    $0x1,%edx
+  401228:	e8 a3 fe ff ff       	call   4010d0 <read@plt>
 		if(data_switch > 0){
-  401206:	8b 44 24 08          	mov    0x8(%rsp),%eax
+  40122d:	8b 44 24 14          	mov    0x14(%rsp),%eax
             ioctl(fd, RD_PBUTTONS);
-  40120a:	be 62 61 00 00       	mov    $0x6162,%esi
-  40120f:	89 df                	mov    %ebx,%edi
+  401231:	be 62 61 00 00       	mov    $0x6162,%esi
+  401236:	89 df                	mov    %ebx,%edi
             unsigned int data_push = 0;
-  401211:	c7 44 24 0c 00 00 00 	movl   $0x0,0xc(%rsp)
-  401218:	00 
+  401238:	c7 44 24 18 00 00 00 	movl   $0x0,0x18(%rsp)
+  40123f:	00 
 		if(data_switch > 0){
-  401219:	85 c0                	test   %eax,%eax
+  401240:	85 c0                	test   %eax,%eax
             ioctl(fd, RD_PBUTTONS);
-  40121b:	b8 00 00 00 00       	mov    $0x0,%eax
+  401242:	b8 00 00 00 00       	mov    $0x0,%eax
 		if(data_switch > 0){
-  401220:	0f 85 4a ff ff ff    	jne    401170 <main+0x70>
+  401247:	0f 85 23 ff ff ff    	jne    401170 <main+0x70>
             ioctl(fd, RD_PBUTTONS);
-  401226:	e8 85 fe ff ff       	call   4010b0 <ioctl@plt>
+  40124d:	e8 5e fe ff ff       	call   4010b0 <ioctl@plt>
 	        read(fd, &data_push, 1);
-  40122b:	ba 01 00 00 00       	mov    $0x1,%edx
-  401230:	48 8d 74 24 0c       	lea    0xc(%rsp),%rsi
-  401235:	89 df                	mov    %ebx,%edi
-  401237:	e8 94 fe ff ff       	call   4010d0 <read@plt>
+  401252:	ba 01 00 00 00       	mov    $0x1,%edx
+  401257:	48 8d 74 24 18       	lea    0x18(%rsp),%rsi
+  40125c:	89 df                	mov    %ebx,%edi
+  40125e:	e8 6d fe ff ff       	call   4010d0 <read@plt>
 				if(data_push == 14){
-  40123c:	8b 44 24 0c          	mov    0xc(%rsp),%eax
-  401240:	83 f8 0e             	cmp    $0xe,%eax
-  401243:	0f 84 37 01 00 00    	je     401380 <main+0x280>
+  401263:	8b 44 24 18          	mov    0x18(%rsp),%eax
+  401267:	83 f8 0e             	cmp    $0xe,%eax
+  40126a:	0f 84 10 02 00 00    	je     401480 <main+0x380>
 				if(data_push == 13){
-  401249:	83 f8 0d             	cmp    $0xd,%eax
-  40124c:	0f 84 0e 01 00 00    	je     401360 <main+0x260>
+  401270:	83 f8 0d             	cmp    $0xd,%eax
+  401273:	0f 84 b7 01 00 00    	je     401430 <main+0x330>
 				if(data_push == 11){
-  401252:	83 f8 0b             	cmp    $0xb,%eax
-  401255:	0f 84 dd 00 00 00    	je     401338 <main+0x238>
+  401279:	83 f8 0b             	cmp    $0xb,%eax
+  40127c:	0f 84 5e 01 00 00    	je     4013e0 <main+0x2e0>
 				if(data_push == 7){
-  40125b:	83 f8 07             	cmp    $0x7,%eax
-  40125e:	0f 85 4a ff ff ff    	jne    4011ae <main+0xae>
+  401282:	83 f8 07             	cmp    $0x7,%eax
+  401285:	0f 85 23 ff ff ff    	jne    4011ae <main+0xae>
 					Mix_PlayChannel(2, NotesStretched[0], 0);
-  401264:	48 8b 74 24 30       	mov    0x30(%rsp),%rsi
-  401269:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
-  40126e:	31 d2                	xor    %edx,%edx
-  401270:	bf 02 00 00 00       	mov    $0x2,%edi
-  401275:	e8 c6 fd ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
-  40127a:	e9 2f ff ff ff       	jmp    4011ae <main+0xae>
-  40127f:	90                   	nop
+  40128b:	48 8b 74 24 40       	mov    0x40(%rsp),%rsi
+  401290:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
+  401295:	31 d2                	xor    %edx,%edx
+  401297:	bf 02 00 00 00       	mov    $0x2,%edi
+  40129c:	e8 9f fd ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+	                ioctl(fd, WR_R_DISPLAY);
+  4012a1:	89 df                	mov    %ebx,%edi
+  4012a3:	be 64 61 00 00       	mov    $0x6164,%esi
+  4012a8:	31 c0                	xor    %eax,%eax
+                    unsigned int data_display_direita = 0xFFFFFFC6;
+  4012aa:	c7 44 24 1c c6 ff ff 	movl   $0xffffffc6,0x1c(%rsp)
+  4012b1:	ff 
+	                ioctl(fd, WR_R_DISPLAY);
+  4012b2:	e8 f9 fd ff ff       	call   4010b0 <ioctl@plt>
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+  4012b7:	ba 04 00 00 00       	mov    $0x4,%edx
+  4012bc:	48 8d 74 24 1c       	lea    0x1c(%rsp),%rsi
+  4012c1:	89 df                	mov    %ebx,%edi
+  4012c3:	e8 88 fd ff ff       	call   401050 <write@plt>
+  4012c8:	e9 e1 fe ff ff       	jmp    4011ae <main+0xae>
+  4012cd:	0f 1f 00             	nopl   (%rax)
 				printf("botao 1\n");
-  401280:	bf e2 20 40 00       	mov    $0x4020e2,%edi
-  401285:	e8 56 fe ff ff       	call   4010e0 <puts@plt>
+  4012d0:	bf e2 20 40 00       	mov    $0x4020e2,%edi
+  4012d5:	e8 06 fe ff ff       	call   4010e0 <puts@plt>
 				Mix_PlayChannel(2, Notes[0], 0);
-  40128a:	48 8b 74 24 10       	mov    0x10(%rsp),%rsi
-  40128f:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
-  401294:	31 d2                	xor    %edx,%edx
-  401296:	bf 02 00 00 00       	mov    $0x2,%edi
-  40129b:	e8 a0 fd ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
-  4012a0:	e9 09 ff ff ff       	jmp    4011ae <main+0xae>
-  4012a5:	0f 1f 00             	nopl   (%rax)
+  4012da:	48 8b 74 24 20       	mov    0x20(%rsp),%rsi
+  4012df:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
+  4012e4:	31 d2                	xor    %edx,%edx
+  4012e6:	eb af                	jmp    401297 <main+0x197>
+  4012e8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  4012ef:	00 
 				printf("botao 2\n");
-  4012a8:	bf da 20 40 00       	mov    $0x4020da,%edi
-  4012ad:	e8 2e fe ff ff       	call   4010e0 <puts@plt>
+  4012f0:	bf da 20 40 00       	mov    $0x4020da,%edi
+  4012f5:	e8 e6 fd ff ff       	call   4010e0 <puts@plt>
 				Mix_PlayChannel(2, Notes[1], 0);
-  4012b2:	48 8b 74 24 18       	mov    0x18(%rsp),%rsi
-  4012b7:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
-  4012bc:	31 d2                	xor    %edx,%edx
-  4012be:	bf 02 00 00 00       	mov    $0x2,%edi
-  4012c3:	e8 78 fd ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+  4012fa:	48 8b 74 24 28       	mov    0x28(%rsp),%rsi
+  4012ff:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
+  401304:	31 d2                	xor    %edx,%edx
+  401306:	bf 02 00 00 00       	mov    $0x2,%edi
+  40130b:	e8 30 fd ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+	            ioctl(fd, WR_R_DISPLAY);
+  401310:	be 64 61 00 00       	mov    $0x6164,%esi
+  401315:	89 df                	mov    %ebx,%edi
+  401317:	31 c0                	xor    %eax,%eax
+                unsigned int data_display_direita = 0xFFFFFFA1;
+  401319:	c7 44 24 1c a1 ff ff 	movl   $0xffffffa1,0x1c(%rsp)
+  401320:	ff 
+	            ioctl(fd, WR_R_DISPLAY);
+  401321:	e8 8a fd ff ff       	call   4010b0 <ioctl@plt>
+	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+  401326:	ba 04 00 00 00       	mov    $0x4,%edx
+  40132b:	48 8d 74 24 1c       	lea    0x1c(%rsp),%rsi
+  401330:	89 df                	mov    %ebx,%edi
+  401332:	e8 19 fd ff ff       	call   401050 <write@plt>
 			if(data_push == 7){
-  4012c8:	8b 44 24 0c          	mov    0xc(%rsp),%eax
-  4012cc:	e9 d4 fe ff ff       	jmp    4011a5 <main+0xa5>
-  4012d1:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  401337:	8b 44 24 18          	mov    0x18(%rsp),%eax
+  40133b:	e9 65 fe ff ff       	jmp    4011a5 <main+0xa5>
 				printf("botao 3\n");
-  4012d8:	bf d2 20 40 00       	mov    $0x4020d2,%edi
-  4012dd:	e8 fe fd ff ff       	call   4010e0 <puts@plt>
+  401340:	bf d2 20 40 00       	mov    $0x4020d2,%edi
+  401345:	e8 96 fd ff ff       	call   4010e0 <puts@plt>
 				Mix_PlayChannel(2, Notes[2], 0);
-  4012e2:	48 8b 74 24 20       	mov    0x20(%rsp),%rsi
-  4012e7:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
-  4012ec:	31 d2                	xor    %edx,%edx
-  4012ee:	bf 02 00 00 00       	mov    $0x2,%edi
-  4012f3:	e8 48 fd ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+  40134a:	48 8b 74 24 30       	mov    0x30(%rsp),%rsi
+  40134f:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
+  401354:	31 d2                	xor    %edx,%edx
+  401356:	bf 02 00 00 00       	mov    $0x2,%edi
+  40135b:	e8 e0 fc ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+	                ioctl(fd, WR_R_DISPLAY);
+  401360:	be 64 61 00 00       	mov    $0x6164,%esi
+  401365:	89 df                	mov    %ebx,%edi
+  401367:	31 c0                	xor    %eax,%eax
+                unsigned int data_display_direita = 0xFFFFFF86;
+  401369:	c7 44 24 1c 86 ff ff 	movl   $0xffffff86,0x1c(%rsp)
+  401370:	ff 
+	                ioctl(fd, WR_R_DISPLAY);
+  401371:	e8 3a fd ff ff       	call   4010b0 <ioctl@plt>
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+  401376:	ba 04 00 00 00       	mov    $0x4,%edx
+  40137b:	48 8d 74 24 1c       	lea    0x1c(%rsp),%rsi
+  401380:	89 df                	mov    %ebx,%edi
+  401382:	e8 c9 fc ff ff       	call   401050 <write@plt>
 		if(data_push == 11){
-  4012f8:	8b 44 24 0c          	mov    0xc(%rsp),%eax
-  4012fc:	e9 9b fe ff ff       	jmp    40119c <main+0x9c>
-  401301:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  401387:	8b 44 24 18          	mov    0x18(%rsp),%eax
+  40138b:	e9 0c fe ff ff       	jmp    40119c <main+0x9c>
 				printf("botao 4\n");
-  401308:	bf ca 20 40 00       	mov    $0x4020ca,%edi
-  40130d:	e8 ce fd ff ff       	call   4010e0 <puts@plt>
+  401390:	bf ca 20 40 00       	mov    $0x4020ca,%edi
+  401395:	e8 46 fd ff ff       	call   4010e0 <puts@plt>
 				Mix_PlayChannel(2, Notes[3], 0);
-  401312:	48 8b 74 24 28       	mov    0x28(%rsp),%rsi
-  401317:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
-  40131c:	31 d2                	xor    %edx,%edx
-  40131e:	bf 02 00 00 00       	mov    $0x2,%edi
-  401323:	e8 18 fd ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+  40139a:	48 8b 74 24 38       	mov    0x38(%rsp),%rsi
+  40139f:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
+  4013a4:	31 d2                	xor    %edx,%edx
+  4013a6:	bf 02 00 00 00       	mov    $0x2,%edi
+  4013ab:	e8 90 fc ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+	                ioctl(fd, WR_R_DISPLAY);
+  4013b0:	be 64 61 00 00       	mov    $0x6164,%esi
+  4013b5:	89 df                	mov    %ebx,%edi
+  4013b7:	31 c0                	xor    %eax,%eax
+               unsigned int data_display_direita = 0xFFFFFF8E;
+  4013b9:	c7 44 24 1c 8e ff ff 	movl   $0xffffff8e,0x1c(%rsp)
+  4013c0:	ff 
+	                ioctl(fd, WR_R_DISPLAY);
+  4013c1:	e8 ea fc ff ff       	call   4010b0 <ioctl@plt>
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+  4013c6:	ba 04 00 00 00       	mov    $0x4,%edx
+  4013cb:	48 8d 74 24 1c       	lea    0x1c(%rsp),%rsi
+  4013d0:	89 df                	mov    %ebx,%edi
+  4013d2:	e8 79 fc ff ff       	call   401050 <write@plt>
 			if(data_push == 13){
-  401328:	8b 44 24 0c          	mov    0xc(%rsp),%eax
-  40132c:	e9 62 fe ff ff       	jmp    401193 <main+0x93>
-  401331:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  4013d7:	8b 44 24 18          	mov    0x18(%rsp),%eax
+  4013db:	e9 b3 fd ff ff       	jmp    401193 <main+0x93>
 					Mix_PlayChannel(2, NotesStretched[1], 0);
-  401338:	48 8b 74 24 38       	mov    0x38(%rsp),%rsi
-  40133d:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
-  401342:	31 d2                	xor    %edx,%edx
-  401344:	bf 02 00 00 00       	mov    $0x2,%edi
-  401349:	e8 f2 fc ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+  4013e0:	48 8b 74 24 48       	mov    0x48(%rsp),%rsi
+  4013e5:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
+  4013ea:	31 d2                	xor    %edx,%edx
+  4013ec:	bf 02 00 00 00       	mov    $0x2,%edi
+  4013f1:	e8 4a fc ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+	                ioctl(fd, WR_R_DISPLAY);
+  4013f6:	be 64 61 00 00       	mov    $0x6164,%esi
+  4013fb:	89 df                	mov    %ebx,%edi
+  4013fd:	31 c0                	xor    %eax,%eax
+                    unsigned int data_display_direita = 0xFFFFFFA1;
+  4013ff:	c7 44 24 1c a1 ff ff 	movl   $0xffffffa1,0x1c(%rsp)
+  401406:	ff 
+	                ioctl(fd, WR_R_DISPLAY);
+  401407:	e8 a4 fc ff ff       	call   4010b0 <ioctl@plt>
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+  40140c:	ba 04 00 00 00       	mov    $0x4,%edx
+  401411:	48 8d 74 24 1c       	lea    0x1c(%rsp),%rsi
+  401416:	89 df                	mov    %ebx,%edi
+  401418:	e8 33 fc ff ff       	call   401050 <write@plt>
 				if(data_push == 7){
-  40134e:	8b 44 24 0c          	mov    0xc(%rsp),%eax
-  401352:	e9 04 ff ff ff       	jmp    40125b <main+0x15b>
-  401357:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
-  40135e:	00 00 
+  40141d:	8b 44 24 18          	mov    0x18(%rsp),%eax
+  401421:	e9 5c fe ff ff       	jmp    401282 <main+0x182>
+  401426:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  40142d:	00 00 00 
 					Mix_PlayChannel(2, NotesStretched[2], 0);
-  401360:	48 8b 74 24 40       	mov    0x40(%rsp),%rsi
-  401365:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
-  40136a:	31 d2                	xor    %edx,%edx
-  40136c:	bf 02 00 00 00       	mov    $0x2,%edi
-  401371:	e8 ca fc ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+  401430:	48 8b 74 24 50       	mov    0x50(%rsp),%rsi
+  401435:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
+  40143a:	31 d2                	xor    %edx,%edx
+  40143c:	bf 02 00 00 00       	mov    $0x2,%edi
+  401441:	e8 fa fb ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+	                ioctl(fd, WR_R_DISPLAY);
+  401446:	be 64 61 00 00       	mov    $0x6164,%esi
+  40144b:	89 df                	mov    %ebx,%edi
+  40144d:	31 c0                	xor    %eax,%eax
+                    unsigned int data_display_direita = 0xFFFFFF86;
+  40144f:	c7 44 24 1c 86 ff ff 	movl   $0xffffff86,0x1c(%rsp)
+  401456:	ff 
+	                ioctl(fd, WR_R_DISPLAY);
+  401457:	e8 54 fc ff ff       	call   4010b0 <ioctl@plt>
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+  40145c:	ba 04 00 00 00       	mov    $0x4,%edx
+  401461:	48 8d 74 24 1c       	lea    0x1c(%rsp),%rsi
+  401466:	89 df                	mov    %ebx,%edi
+  401468:	e8 e3 fb ff ff       	call   401050 <write@plt>
 				if(data_push == 11){
-  401376:	8b 44 24 0c          	mov    0xc(%rsp),%eax
-  40137a:	e9 d3 fe ff ff       	jmp    401252 <main+0x152>
-  40137f:	90                   	nop
+  40146d:	8b 44 24 18          	mov    0x18(%rsp),%eax
+  401471:	e9 03 fe ff ff       	jmp    401279 <main+0x179>
+  401476:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  40147d:	00 00 00 
 					Mix_PlayChannel(2, NotesStretched[3], 0);
-  401380:	48 8b 74 24 48       	mov    0x48(%rsp),%rsi
-  401385:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
-  40138a:	31 d2                	xor    %edx,%edx
-  40138c:	bf 02 00 00 00       	mov    $0x2,%edi
-  401391:	e8 aa fc ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+  401480:	48 8b 74 24 58       	mov    0x58(%rsp),%rsi
+  401485:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
+  40148a:	31 d2                	xor    %edx,%edx
+  40148c:	bf 02 00 00 00       	mov    $0x2,%edi
+  401491:	e8 aa fb ff ff       	call   401040 <Mix_PlayChannelTimed@plt>
+	                ioctl(fd, WR_R_DISPLAY);
+  401496:	be 64 61 00 00       	mov    $0x6164,%esi
+  40149b:	89 df                	mov    %ebx,%edi
+  40149d:	31 c0                	xor    %eax,%eax
+                    unsigned int data_display_direita = 0xFFFFFF8E;
+  40149f:	c7 44 24 1c 8e ff ff 	movl   $0xffffff8e,0x1c(%rsp)
+  4014a6:	ff 
+	                ioctl(fd, WR_R_DISPLAY);
+  4014a7:	e8 04 fc ff ff       	call   4010b0 <ioctl@plt>
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+  4014ac:	ba 04 00 00 00       	mov    $0x4,%edx
+  4014b1:	48 8d 74 24 1c       	lea    0x1c(%rsp),%rsi
+  4014b6:	89 df                	mov    %ebx,%edi
+  4014b8:	e8 93 fb ff ff       	call   401050 <write@plt>
 				if(data_push == 13){
-  401396:	8b 44 24 0c          	mov    0xc(%rsp),%eax
-  40139a:	e9 aa fe ff ff       	jmp    401249 <main+0x149>
+  4014bd:	8b 44 24 18          	mov    0x18(%rsp),%eax
+  4014c1:	e9 aa fd ff ff       	jmp    401270 <main+0x170>
 		printf("Syntax: %s <device file path>\n", argv[0]);
-  40139f:	48 8b 75 00          	mov    0x0(%rbp),%rsi
-  4013a3:	bf f0 20 40 00       	mov    $0x4020f0,%edi
-  4013a8:	31 c0                	xor    %eax,%eax
-  4013aa:	e8 81 fc ff ff       	call   401030 <printf@plt>
+  4014c6:	48 8b 75 00          	mov    0x0(%rbp),%rsi
+  4014ca:	bf f0 20 40 00       	mov    $0x4020f0,%edi
+  4014cf:	31 c0                	xor    %eax,%eax
+  4014d1:	e8 5a fb ff ff       	call   401030 <printf@plt>
 		return -EINVAL;
-  4013af:	b8 ea ff ff ff       	mov    $0xffffffea,%eax
+  4014d6:	b8 ea ff ff ff       	mov    $0xffffffea,%eax
 	}
 
 	close(fd);
 
 	return 0;
 }
-  4013b4:	48 83 c4 58          	add    $0x58,%rsp
-  4013b8:	5b                   	pop    %rbx
-  4013b9:	5d                   	pop    %rbp
-  4013ba:	c3                   	ret    
+  4014db:	48 83 c4 68          	add    $0x68,%rsp
+  4014df:	5b                   	pop    %rbx
+  4014e0:	5d                   	pop    %rbp
+  4014e1:	c3                   	ret    
 		fprintf(stderr, "Error opening file %s\n", argv[1]);
-  4013bb:	48 8b 55 08          	mov    0x8(%rbp),%rdx
-  4013bf:	48 8b 3d da 2c 00 00 	mov    0x2cda(%rip),%rdi        # 4040a0 <stderr@@GLIBC_2.2.5>
-  4013c6:	be b3 20 40 00       	mov    $0x4020b3,%esi
-  4013cb:	31 c0                	xor    %eax,%eax
-  4013cd:	e8 ee fc ff ff       	call   4010c0 <fprintf@plt>
+  4014e2:	48 8b 55 08          	mov    0x8(%rbp),%rdx
+  4014e6:	48 8b 3d b3 2b 00 00 	mov    0x2bb3(%rip),%rdi        # 4040a0 <stderr@@GLIBC_2.2.5>
+  4014ed:	be b3 20 40 00       	mov    $0x4020b3,%esi
+  4014f2:	31 c0                	xor    %eax,%eax
+  4014f4:	e8 c7 fb ff ff       	call   4010c0 <fprintf@plt>
 		return -EBUSY;
-  4013d2:	b8 f0 ff ff ff       	mov    $0xfffffff0,%eax
-  4013d7:	eb db                	jmp    4013b4 <main+0x2b4>
+  4014f9:	b8 f0 ff ff ff       	mov    $0xfffffff0,%eax
+  4014fe:	eb db                	jmp    4014db <main+0x3db>
 
-00000000004013d9 <.annobin_abi_note.c.hot>:
-  4013d9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+0000000000401500 <_start>:
+  401500:	f3 0f 1e fa          	endbr64 
+  401504:	31 ed                	xor    %ebp,%ebp
+  401506:	49 89 d1             	mov    %rdx,%r9
+  401509:	5e                   	pop    %rsi
+  40150a:	48 89 e2             	mov    %rsp,%rdx
+  40150d:	48 83 e4 f0          	and    $0xfffffffffffffff0,%rsp
+  401511:	50                   	push   %rax
+  401512:	54                   	push   %rsp
+  401513:	45 31 c0             	xor    %r8d,%r8d
+  401516:	31 c9                	xor    %ecx,%ecx
+  401518:	48 c7 c7 00 11 40 00 	mov    $0x401100,%rdi
+  40151f:	ff 15 cb 2a 00 00    	call   *0x2acb(%rip)        # 403ff0 <__libc_start_main@GLIBC_2.34>
+  401525:	f4                   	hlt    
 
-00000000004013e0 <_start>:
-  4013e0:	f3 0f 1e fa          	endbr64 
-  4013e4:	31 ed                	xor    %ebp,%ebp
-  4013e6:	49 89 d1             	mov    %rdx,%r9
-  4013e9:	5e                   	pop    %rsi
-  4013ea:	48 89 e2             	mov    %rsp,%rdx
-  4013ed:	48 83 e4 f0          	and    $0xfffffffffffffff0,%rsp
-  4013f1:	50                   	push   %rax
-  4013f2:	54                   	push   %rsp
-  4013f3:	45 31 c0             	xor    %r8d,%r8d
-  4013f6:	31 c9                	xor    %ecx,%ecx
-  4013f8:	48 c7 c7 00 11 40 00 	mov    $0x401100,%rdi
-  4013ff:	ff 15 eb 2b 00 00    	call   *0x2beb(%rip)        # 403ff0 <__libc_start_main@GLIBC_2.34>
-  401405:	f4                   	hlt    
+0000000000401526 <.annobin_abi_note.c>:
+  401526:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  40152d:	00 00 00 
 
-0000000000401406 <.annobin_abi_note.c>:
-  401406:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
-  40140d:	00 00 00 
+0000000000401530 <_dl_relocate_static_pie>:
+  401530:	f3 0f 1e fa          	endbr64 
+  401534:	c3                   	ret    
 
-0000000000401410 <_dl_relocate_static_pie>:
-  401410:	f3 0f 1e fa          	endbr64 
-  401414:	c3                   	ret    
+0000000000401535 <.annobin__dl_relocate_static_pie.end>:
+  401535:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  40153c:	00 00 00 
+  40153f:	90                   	nop
 
-0000000000401415 <.annobin__dl_relocate_static_pie.end>:
-  401415:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
-  40141c:	00 00 00 
-  40141f:	90                   	nop
+0000000000401540 <deregister_tm_clones>:
+  401540:	b8 88 40 40 00       	mov    $0x404088,%eax
+  401545:	48 3d 88 40 40 00    	cmp    $0x404088,%rax
+  40154b:	74 13                	je     401560 <deregister_tm_clones+0x20>
+  40154d:	b8 00 00 00 00       	mov    $0x0,%eax
+  401552:	48 85 c0             	test   %rax,%rax
+  401555:	74 09                	je     401560 <deregister_tm_clones+0x20>
+  401557:	bf 88 40 40 00       	mov    $0x404088,%edi
+  40155c:	ff e0                	jmp    *%rax
+  40155e:	66 90                	xchg   %ax,%ax
+  401560:	c3                   	ret    
+  401561:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  401568:	00 00 00 00 
+  40156c:	0f 1f 40 00          	nopl   0x0(%rax)
 
-0000000000401420 <deregister_tm_clones>:
-  401420:	b8 88 40 40 00       	mov    $0x404088,%eax
-  401425:	48 3d 88 40 40 00    	cmp    $0x404088,%rax
-  40142b:	74 13                	je     401440 <deregister_tm_clones+0x20>
-  40142d:	b8 00 00 00 00       	mov    $0x0,%eax
-  401432:	48 85 c0             	test   %rax,%rax
-  401435:	74 09                	je     401440 <deregister_tm_clones+0x20>
-  401437:	bf 88 40 40 00       	mov    $0x404088,%edi
-  40143c:	ff e0                	jmp    *%rax
-  40143e:	66 90                	xchg   %ax,%ax
-  401440:	c3                   	ret    
-  401441:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
-  401448:	00 00 00 00 
-  40144c:	0f 1f 40 00          	nopl   0x0(%rax)
+0000000000401570 <register_tm_clones>:
+  401570:	be 88 40 40 00       	mov    $0x404088,%esi
+  401575:	48 81 ee 88 40 40 00 	sub    $0x404088,%rsi
+  40157c:	48 89 f0             	mov    %rsi,%rax
+  40157f:	48 c1 ee 3f          	shr    $0x3f,%rsi
+  401583:	48 c1 f8 03          	sar    $0x3,%rax
+  401587:	48 01 c6             	add    %rax,%rsi
+  40158a:	48 d1 fe             	sar    %rsi
+  40158d:	74 11                	je     4015a0 <register_tm_clones+0x30>
+  40158f:	b8 00 00 00 00       	mov    $0x0,%eax
+  401594:	48 85 c0             	test   %rax,%rax
+  401597:	74 07                	je     4015a0 <register_tm_clones+0x30>
+  401599:	bf 88 40 40 00       	mov    $0x404088,%edi
+  40159e:	ff e0                	jmp    *%rax
+  4015a0:	c3                   	ret    
+  4015a1:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  4015a8:	00 00 00 00 
+  4015ac:	0f 1f 40 00          	nopl   0x0(%rax)
 
-0000000000401450 <register_tm_clones>:
-  401450:	be 88 40 40 00       	mov    $0x404088,%esi
-  401455:	48 81 ee 88 40 40 00 	sub    $0x404088,%rsi
-  40145c:	48 89 f0             	mov    %rsi,%rax
-  40145f:	48 c1 ee 3f          	shr    $0x3f,%rsi
-  401463:	48 c1 f8 03          	sar    $0x3,%rax
-  401467:	48 01 c6             	add    %rax,%rsi
-  40146a:	48 d1 fe             	sar    %rsi
-  40146d:	74 11                	je     401480 <register_tm_clones+0x30>
-  40146f:	b8 00 00 00 00       	mov    $0x0,%eax
-  401474:	48 85 c0             	test   %rax,%rax
-  401477:	74 07                	je     401480 <register_tm_clones+0x30>
-  401479:	bf 88 40 40 00       	mov    $0x404088,%edi
-  40147e:	ff e0                	jmp    *%rax
-  401480:	c3                   	ret    
-  401481:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
-  401488:	00 00 00 00 
-  40148c:	0f 1f 40 00          	nopl   0x0(%rax)
+00000000004015b0 <__do_global_dtors_aux>:
+  4015b0:	f3 0f 1e fa          	endbr64 
+  4015b4:	80 3d ed 2a 00 00 00 	cmpb   $0x0,0x2aed(%rip)        # 4040a8 <completed.0>
+  4015bb:	75 13                	jne    4015d0 <__do_global_dtors_aux+0x20>
+  4015bd:	55                   	push   %rbp
+  4015be:	48 89 e5             	mov    %rsp,%rbp
+  4015c1:	e8 7a ff ff ff       	call   401540 <deregister_tm_clones>
+  4015c6:	c6 05 db 2a 00 00 01 	movb   $0x1,0x2adb(%rip)        # 4040a8 <completed.0>
+  4015cd:	5d                   	pop    %rbp
+  4015ce:	c3                   	ret    
+  4015cf:	90                   	nop
+  4015d0:	c3                   	ret    
+  4015d1:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  4015d8:	00 00 00 00 
+  4015dc:	0f 1f 40 00          	nopl   0x0(%rax)
 
-0000000000401490 <__do_global_dtors_aux>:
-  401490:	f3 0f 1e fa          	endbr64 
-  401494:	80 3d 0d 2c 00 00 00 	cmpb   $0x0,0x2c0d(%rip)        # 4040a8 <completed.0>
-  40149b:	75 13                	jne    4014b0 <__do_global_dtors_aux+0x20>
-  40149d:	55                   	push   %rbp
-  40149e:	48 89 e5             	mov    %rsp,%rbp
-  4014a1:	e8 7a ff ff ff       	call   401420 <deregister_tm_clones>
-  4014a6:	c6 05 fb 2b 00 00 01 	movb   $0x1,0x2bfb(%rip)        # 4040a8 <completed.0>
-  4014ad:	5d                   	pop    %rbp
-  4014ae:	c3                   	ret    
-  4014af:	90                   	nop
-  4014b0:	c3                   	ret    
-  4014b1:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
-  4014b8:	00 00 00 00 
-  4014bc:	0f 1f 40 00          	nopl   0x0(%rax)
+00000000004015e0 <frame_dummy>:
+  4015e0:	f3 0f 1e fa          	endbr64 
+  4015e4:	eb 8a                	jmp    401570 <register_tm_clones>
+  4015e6:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  4015ed:	00 00 00 
 
-00000000004014c0 <frame_dummy>:
-  4014c0:	f3 0f 1e fa          	endbr64 
-  4014c4:	eb 8a                	jmp    401450 <register_tm_clones>
-  4014c6:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
-  4014cd:	00 00 00 
-
-00000000004014d0 <LoadPiano>:
+00000000004015f0 <LoadPiano>:
 
 void LoadPiano(Mix_Chunk **Notes) {
-  4014d0:	53                   	push   %rbx
+  4015f0:	53                   	push   %rbx
 	Notes[0] = Mix_LoadWAV("Samples/do.wav");
-  4014d1:	be 10 20 40 00       	mov    $0x402010,%esi
+  4015f1:	be 10 20 40 00       	mov    $0x402010,%esi
 void LoadPiano(Mix_Chunk **Notes) {
-  4014d6:	48 89 fb             	mov    %rdi,%rbx
+  4015f6:	48 89 fb             	mov    %rdi,%rbx
 	Notes[0] = Mix_LoadWAV("Samples/do.wav");
-  4014d9:	bf 13 20 40 00       	mov    $0x402013,%edi
-  4014de:	e8 7d fb ff ff       	call   401060 <SDL_RWFromFile@plt>
-  4014e3:	be 01 00 00 00       	mov    $0x1,%esi
-  4014e8:	48 89 c7             	mov    %rax,%rdi
-  4014eb:	e8 00 fc ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
+  4015f9:	bf 13 20 40 00       	mov    $0x402013,%edi
+  4015fe:	e8 5d fa ff ff       	call   401060 <SDL_RWFromFile@plt>
+  401603:	be 01 00 00 00       	mov    $0x1,%esi
+  401608:	48 89 c7             	mov    %rax,%rdi
+  40160b:	e8 e0 fa ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
     Notes[1] = Mix_LoadWAV("Samples/re.wav");
-  4014f0:	be 10 20 40 00       	mov    $0x402010,%esi
-  4014f5:	bf 22 20 40 00       	mov    $0x402022,%edi
+  401610:	be 10 20 40 00       	mov    $0x402010,%esi
+  401615:	bf 22 20 40 00       	mov    $0x402022,%edi
 	Notes[0] = Mix_LoadWAV("Samples/do.wav");
-  4014fa:	48 89 03             	mov    %rax,(%rbx)
+  40161a:	48 89 03             	mov    %rax,(%rbx)
     Notes[1] = Mix_LoadWAV("Samples/re.wav");
-  4014fd:	e8 5e fb ff ff       	call   401060 <SDL_RWFromFile@plt>
-  401502:	be 01 00 00 00       	mov    $0x1,%esi
-  401507:	48 89 c7             	mov    %rax,%rdi
-  40150a:	e8 e1 fb ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
+  40161d:	e8 3e fa ff ff       	call   401060 <SDL_RWFromFile@plt>
+  401622:	be 01 00 00 00       	mov    $0x1,%esi
+  401627:	48 89 c7             	mov    %rax,%rdi
+  40162a:	e8 c1 fa ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
     Notes[2] = Mix_LoadWAV("Samples/mi.wav");
-  40150f:	be 10 20 40 00       	mov    $0x402010,%esi
-  401514:	bf 31 20 40 00       	mov    $0x402031,%edi
+  40162f:	be 10 20 40 00       	mov    $0x402010,%esi
+  401634:	bf 31 20 40 00       	mov    $0x402031,%edi
     Notes[1] = Mix_LoadWAV("Samples/re.wav");
-  401519:	48 89 43 08          	mov    %rax,0x8(%rbx)
+  401639:	48 89 43 08          	mov    %rax,0x8(%rbx)
     Notes[2] = Mix_LoadWAV("Samples/mi.wav");
-  40151d:	e8 3e fb ff ff       	call   401060 <SDL_RWFromFile@plt>
-  401522:	be 01 00 00 00       	mov    $0x1,%esi
-  401527:	48 89 c7             	mov    %rax,%rdi
-  40152a:	e8 c1 fb ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
+  40163d:	e8 1e fa ff ff       	call   401060 <SDL_RWFromFile@plt>
+  401642:	be 01 00 00 00       	mov    $0x1,%esi
+  401647:	48 89 c7             	mov    %rax,%rdi
+  40164a:	e8 a1 fa ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
     Notes[3] = Mix_LoadWAV("Samples/fa.wav");
-  40152f:	be 10 20 40 00       	mov    $0x402010,%esi
-  401534:	bf 40 20 40 00       	mov    $0x402040,%edi
+  40164f:	be 10 20 40 00       	mov    $0x402010,%esi
+  401654:	bf 40 20 40 00       	mov    $0x402040,%edi
     Notes[2] = Mix_LoadWAV("Samples/mi.wav");
-  401539:	48 89 43 10          	mov    %rax,0x10(%rbx)
+  401659:	48 89 43 10          	mov    %rax,0x10(%rbx)
     Notes[3] = Mix_LoadWAV("Samples/fa.wav");
-  40153d:	e8 1e fb ff ff       	call   401060 <SDL_RWFromFile@plt>
-  401542:	be 01 00 00 00       	mov    $0x1,%esi
-  401547:	48 89 c7             	mov    %rax,%rdi
-  40154a:	e8 a1 fb ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
-  40154f:	48 89 43 18          	mov    %rax,0x18(%rbx)
+  40165d:	e8 fe f9 ff ff       	call   401060 <SDL_RWFromFile@plt>
+  401662:	be 01 00 00 00       	mov    $0x1,%esi
+  401667:	48 89 c7             	mov    %rax,%rdi
+  40166a:	e8 81 fa ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
+  40166f:	48 89 43 18          	mov    %rax,0x18(%rbx)
 }
-  401553:	5b                   	pop    %rbx
-  401554:	c3                   	ret    
-  401555:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
-  40155c:	00 00 00 00 
+  401673:	5b                   	pop    %rbx
+  401674:	c3                   	ret    
+  401675:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  40167c:	00 00 00 00 
 
-0000000000401560 <LoadPianoStretched>:
+0000000000401680 <LoadPianoStretched>:
 
 void LoadPianoStretched(Mix_Chunk **Notes) {
-  401560:	53                   	push   %rbx
+  401680:	53                   	push   %rbx
 	Notes[0] = Mix_LoadWAV("Samples/do-stretched.wav");
-  401561:	be 10 20 40 00       	mov    $0x402010,%esi
+  401681:	be 10 20 40 00       	mov    $0x402010,%esi
 void LoadPianoStretched(Mix_Chunk **Notes) {
-  401566:	48 89 fb             	mov    %rdi,%rbx
+  401686:	48 89 fb             	mov    %rdi,%rbx
 	Notes[0] = Mix_LoadWAV("Samples/do-stretched.wav");
-  401569:	bf 4f 20 40 00       	mov    $0x40204f,%edi
-  40156e:	e8 ed fa ff ff       	call   401060 <SDL_RWFromFile@plt>
-  401573:	be 01 00 00 00       	mov    $0x1,%esi
-  401578:	48 89 c7             	mov    %rax,%rdi
-  40157b:	e8 70 fb ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
+  401689:	bf 4f 20 40 00       	mov    $0x40204f,%edi
+  40168e:	e8 cd f9 ff ff       	call   401060 <SDL_RWFromFile@plt>
+  401693:	be 01 00 00 00       	mov    $0x1,%esi
+  401698:	48 89 c7             	mov    %rax,%rdi
+  40169b:	e8 50 fa ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
     Notes[1] = Mix_LoadWAV("Samples/re-stretched.wav");
-  401580:	be 10 20 40 00       	mov    $0x402010,%esi
-  401585:	bf 68 20 40 00       	mov    $0x402068,%edi
+  4016a0:	be 10 20 40 00       	mov    $0x402010,%esi
+  4016a5:	bf 68 20 40 00       	mov    $0x402068,%edi
 	Notes[0] = Mix_LoadWAV("Samples/do-stretched.wav");
-  40158a:	48 89 03             	mov    %rax,(%rbx)
+  4016aa:	48 89 03             	mov    %rax,(%rbx)
     Notes[1] = Mix_LoadWAV("Samples/re-stretched.wav");
-  40158d:	e8 ce fa ff ff       	call   401060 <SDL_RWFromFile@plt>
-  401592:	be 01 00 00 00       	mov    $0x1,%esi
-  401597:	48 89 c7             	mov    %rax,%rdi
-  40159a:	e8 51 fb ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
+  4016ad:	e8 ae f9 ff ff       	call   401060 <SDL_RWFromFile@plt>
+  4016b2:	be 01 00 00 00       	mov    $0x1,%esi
+  4016b7:	48 89 c7             	mov    %rax,%rdi
+  4016ba:	e8 31 fa ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
     Notes[2] = Mix_LoadWAV("Samples/mi-stretched.wav");
-  40159f:	be 10 20 40 00       	mov    $0x402010,%esi
-  4015a4:	bf 81 20 40 00       	mov    $0x402081,%edi
+  4016bf:	be 10 20 40 00       	mov    $0x402010,%esi
+  4016c4:	bf 81 20 40 00       	mov    $0x402081,%edi
     Notes[1] = Mix_LoadWAV("Samples/re-stretched.wav");
-  4015a9:	48 89 43 08          	mov    %rax,0x8(%rbx)
+  4016c9:	48 89 43 08          	mov    %rax,0x8(%rbx)
     Notes[2] = Mix_LoadWAV("Samples/mi-stretched.wav");
-  4015ad:	e8 ae fa ff ff       	call   401060 <SDL_RWFromFile@plt>
-  4015b2:	be 01 00 00 00       	mov    $0x1,%esi
-  4015b7:	48 89 c7             	mov    %rax,%rdi
-  4015ba:	e8 31 fb ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
+  4016cd:	e8 8e f9 ff ff       	call   401060 <SDL_RWFromFile@plt>
+  4016d2:	be 01 00 00 00       	mov    $0x1,%esi
+  4016d7:	48 89 c7             	mov    %rax,%rdi
+  4016da:	e8 11 fa ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
     Notes[3] = Mix_LoadWAV("Samples/fa-stretched.wav");
-  4015bf:	be 10 20 40 00       	mov    $0x402010,%esi
-  4015c4:	bf 9a 20 40 00       	mov    $0x40209a,%edi
+  4016df:	be 10 20 40 00       	mov    $0x402010,%esi
+  4016e4:	bf 9a 20 40 00       	mov    $0x40209a,%edi
     Notes[2] = Mix_LoadWAV("Samples/mi-stretched.wav");
-  4015c9:	48 89 43 10          	mov    %rax,0x10(%rbx)
+  4016e9:	48 89 43 10          	mov    %rax,0x10(%rbx)
     Notes[3] = Mix_LoadWAV("Samples/fa-stretched.wav");
-  4015cd:	e8 8e fa ff ff       	call   401060 <SDL_RWFromFile@plt>
-  4015d2:	be 01 00 00 00       	mov    $0x1,%esi
-  4015d7:	48 89 c7             	mov    %rax,%rdi
-  4015da:	e8 11 fb ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
-  4015df:	48 89 43 18          	mov    %rax,0x18(%rbx)
+  4016ed:	e8 6e f9 ff ff       	call   401060 <SDL_RWFromFile@plt>
+  4016f2:	be 01 00 00 00       	mov    $0x1,%esi
+  4016f7:	48 89 c7             	mov    %rax,%rdi
+  4016fa:	e8 f1 f9 ff ff       	call   4010f0 <Mix_LoadWAV_RW@plt>
+  4016ff:	48 89 43 18          	mov    %rax,0x18(%rbx)
 }
-  4015e3:	5b                   	pop    %rbx
-  4015e4:	c3                   	ret    
+  401703:	5b                   	pop    %rbx
+  401704:	c3                   	ret    
 
 Desmontagem da secção .fini:
 
-00000000004015e8 <_fini>:
-  4015e8:	f3 0f 1e fa          	endbr64 
-  4015ec:	48 83 ec 08          	sub    $0x8,%rsp
-  4015f0:	48 83 c4 08          	add    $0x8,%rsp
-  4015f4:	c3                   	ret    
+0000000000401708 <_fini>:
+  401708:	f3 0f 1e fa          	endbr64 
+  40170c:	48 83 ec 08          	sub    $0x8,%rsp
+  401710:	48 83 c4 08          	add    $0x8,%rsp
+  401714:	c3                   	ret    
