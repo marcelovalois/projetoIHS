@@ -7,8 +7,12 @@
 #include <fcntl.h>	/* open() */
 #include <sys/ioctl.h>	/* ioctl() */
 #include <errno.h>	/* error codes */
+#include <omp.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "ioctl_cmds.h"
+
+void LoadPiano(Mix_Chunk **Notes);
 
 int main(int argc, char** argv)
 {
@@ -50,4 +54,8 @@ int main(int argc, char** argv)
 	close(fd);
 
 	return 0;
+}
+
+void LoadPiano(Mix_Chunk **Notes) {
+
 }
