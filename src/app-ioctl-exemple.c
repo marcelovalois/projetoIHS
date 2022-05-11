@@ -38,11 +38,17 @@ int main(int argc, char** argv)
 	// Quando apertar a nota, mostrar no display a nota em inglês
 
 
+    	Mix_Init(MIX_INIT_MID);
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	Mix_Chunk *Notes[NotesNUM];
 	Mix_Chunk *NotesStretched[NotesNUM];
 
 	LoadPiano(Notes);
 	LoadPianoStretched(NotesStretched);
+
+	//while(1) {
+		//Mix_PlayChannel(2, Notes[3], 0);
+	//}
 
 	if (argc < 2) {
 		printf("Syntax: %s <device file path>\n", argv[0]);
@@ -72,21 +78,25 @@ int main(int argc, char** argv)
 			// Notas normais
 			if(data_push == 14){
                     //14 é o fá
+				printf("botao 4\n");
 				Mix_PlayChannel(2, Notes[3], 0);
 					// Printar F no D7
 			}
 			if(data_push == 13){
                     //13 é o mi
+				printf("botao 3\n");
 				Mix_PlayChannel(2, Notes[2], 0);
 					// Printar E no D7
 			}
-			if(data_push == 11){
+		if(data_push == 11){
                     //11 é o ré
+				printf("botao 2\n");
 				Mix_PlayChannel(2, Notes[1], 0);
 					// Printar D no D7
 			}
 			if(data_push == 7){
                     //7 é o dó
+				printf("botao 1\n");
 				Mix_PlayChannel(2, Notes[0], 0);
 					// Printar C no D7
 			}
@@ -118,33 +128,8 @@ int main(int argc, char** argv)
 					// Printar C no D7
 				}
 			}
-		
+        	sleep(2);
 	}
-
-	unsigned int data = 0;
-	unsigned int data1 = 0x79404040;
-	unsigned int data2 = 0x40404079;
-	unsigned int data3 = 0xFFFFFFFF;
-	
-
-	ioctl(fd, WR_R_DISPLAY);
-	retval = write(fd, &data2, sizeof(data));
-	ioctl(fd, WR_L_DISPLAY);
-	retval = write(fd, &data2, sizeof(data));
-	ioctl(fd, WR_RED_LEDS);
-	retval = write(fd, &data3, sizeof(data));
-    unsigned int data4 = 0xFFFFFF55;
-	ioctl(fd, WR_GREEN_LEDS);
-	retval = write(fd, &data4, sizeof(data));
-
-	ioctl(fd, RD_SWITCHES);
-	read(fd, &data, 1);
-	printf("new data: 0x%X\n", data);
-	ioctl(fd, RD_PBUTTONS);
-	read(fd, &data, 1);
-	printf("new data: 0x%X\n", data);
-
-
 
 	close(fd);
 
