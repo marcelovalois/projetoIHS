@@ -26,6 +26,7 @@ void LoadPianoStretched(Mix_Chunk **Notes);
 int main(int argc, char** argv)
 {
 	int fd, len, retval;
+	int cnt = 0;
 	char buf[255];
 	char cmd;
 
@@ -89,6 +90,9 @@ int main(int argc, char** argv)
             unsigned int data_push = 0;
             ioctl(fd, RD_PBUTTONS);
 	        read(fd, &data_push, 1);
+	        unsigned int data_red_led = 131073;
+	   		ioctl(fd, WR_RED_LEDS);
+	    	write(fd, &data_red_led, sizeof(data_red_led));
 	        
 			// Notas normais
 			if(data_push == 14){
@@ -142,7 +146,7 @@ int main(int argc, char** argv)
 					// Printar C no D7
 			}
 			
-
+			
 		} else {
             unsigned int data_push = 0;
             ioctl(fd, RD_PBUTTONS);
@@ -193,7 +197,12 @@ int main(int argc, char** argv)
 					// Printar C no D7
 				}
 			}
-
+			if ((cnt % 2) == 0) {
+				data_red_led ^= 131072;
+				ioctl(fd, WR_RED_LEDS);
+				write(fd, data_red_led, sizeof(data_red_led));
+			}
+			cnt++;
         	sleep(1);
 	}
 
