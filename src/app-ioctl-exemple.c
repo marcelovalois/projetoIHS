@@ -59,12 +59,23 @@ int main(int argc, char** argv)
 		fprintf(stderr, "Error opening file %s\n", argv[1]);
 		return -EBUSY;
 	}
+	unsigned int data_display_esquerda = 0xFFFFFFFF;
+	    ioctl(fd, WR_L_DISPLAY);
+	    retval = write(fd, &data_display_esquerda, sizeof(data_display_esquerda));
+
+	unsigned int data_display_direita = 0xFFFFFFFF;
+	    ioctl(fd, WR_R_DISPLAY);
+	    retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 
 	while(1) {
         //ligar todos os leds verdes
-        unsigned int data_green_led = 0xFFFFFFFF;
+        unsigned int data_green_led = 0;
 	    ioctl(fd, WR_GREEN_LEDS);
 	    write(fd, &data_green_led, sizeof(data_green_led));
+	    
+	    unsigned int data_red_led = 131072;
+	    ioctl(fd, WR_RED_LEDS);
+	    write(fd, &data_red_led, sizeof(data_red_led));
 	    
 	    unsigned int data_display_esquerda = 0xFFFFFFFF;
 	    ioctl(fd, WR_L_DISPLAY);
@@ -87,6 +98,9 @@ int main(int argc, char** argv)
                unsigned int data_display_direita = 0xFFFFFF8E;
 	                ioctl(fd, WR_R_DISPLAY);
 	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+	                unsigned int data_green_led = 3;
+	    			ioctl(fd, WR_GREEN_LEDS);
+	    			write(fd, &data_green_led, sizeof(data_green_led));
 					// Printar F no D7
 
 			}
@@ -97,6 +111,10 @@ int main(int argc, char** argv)
                 unsigned int data_display_direita = 0xFFFFFF86;
 	                ioctl(fd, WR_R_DISPLAY);
 	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+	                unsigned int data_green_led = 12;
+	    			ioctl(fd, WR_GREEN_LEDS);
+	    			write(fd, &data_green_led, sizeof(data_green_led));
+
 					// Printar E no D7
 			}
 		if(data_push == 11){
@@ -106,6 +124,9 @@ int main(int argc, char** argv)
                 unsigned int data_display_direita = 0xFFFFFFA1;
 	            ioctl(fd, WR_R_DISPLAY);
 	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+	            unsigned int data_green_led = 48;
+	    			ioctl(fd, WR_GREEN_LEDS);
+	    			write(fd, &data_green_led, sizeof(data_green_led));
 					// Printar D no D7
 			}
 			if(data_push == 7){
@@ -115,6 +136,9 @@ int main(int argc, char** argv)
                 unsigned int data_display_direita = 0xFFFFFFC6;
 	            ioctl(fd, WR_R_DISPLAY);
 	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+	            unsigned int data_green_led = 192;
+	    			ioctl(fd, WR_GREEN_LEDS);
+	    			write(fd, &data_green_led, sizeof(data_green_led));
 					// Printar C no D7
 			}
 			
@@ -133,6 +157,9 @@ int main(int argc, char** argv)
                     unsigned int data_display_direita = 0xFFFFFF8E;
 	                ioctl(fd, WR_R_DISPLAY);
 	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+	                unsigned int data_green_led = 3;
+	    			ioctl(fd, WR_GREEN_LEDS);
+	    			write(fd, &data_green_led, sizeof(data_green_led));
 					// Printar F no D7
 				}
 				if(data_push == 13){
@@ -140,6 +167,9 @@ int main(int argc, char** argv)
                     unsigned int data_display_direita = 0xFFFFFF86;
 	                ioctl(fd, WR_R_DISPLAY);
 	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+	                unsigned int data_green_led = 12;
+	    			ioctl(fd, WR_GREEN_LEDS);
+	    			write(fd, &data_green_led, sizeof(data_green_led));
 					// Printar E no D7
 				}
 				if(data_push == 11){
@@ -147,6 +177,9 @@ int main(int argc, char** argv)
                     unsigned int data_display_direita = 0xFFFFFFA1;
 	                ioctl(fd, WR_R_DISPLAY);
 	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+	                unsigned int data_green_led = 48;
+	    			ioctl(fd, WR_GREEN_LEDS);
+	    			write(fd, &data_green_led, sizeof(data_green_led));
 					// Printar D no D7
 				}
 				if(data_push == 7){
@@ -154,9 +187,13 @@ int main(int argc, char** argv)
                     unsigned int data_display_direita = 0xFFFFFFC6;
 	                ioctl(fd, WR_R_DISPLAY);
 	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+	                unsigned int data_green_led = 192;
+	    			ioctl(fd, WR_GREEN_LEDS);
+	    			write(fd, &data_green_led, sizeof(data_green_led));
 					// Printar C no D7
 				}
 			}
+
         	sleep(1);
 	}
 
