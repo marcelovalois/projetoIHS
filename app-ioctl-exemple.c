@@ -29,6 +29,15 @@ int main(int argc, char** argv)
 	char buf[255];
 	char cmd;
 
+	// const data to print out in the d7 display
+    const uint32_t mem_trash = 0, led_1 = 3 , led_2 = 12, led_3 = 48, led_4 = 192;;
+    const uint32_t hex_b = 0xFFFFFF03, hex_e = 0xFFFFFF06, hex_d = 0xFFFFFF21, hex_empty = 0xFFFFFF7F;
+    const uint32_t hex_1 = 0xFFFFFF79, hex_2 = 0xFFFFFF24, hex_3 = 0xFFFFFF30, hex_4 = 0xFFFFFF19;
+    const uint32_t hex_c = 0xFFFFFF46, hex_a = 0xFFFFFF08, hex_g = 0xFFFFFF42, hex_f = 0xFFFFFF0E;
+
+	// Quando apertar a nota, mostrar no display a nota em inglês
+
+
 	Mix_Chunk *Notes[NotesNUM];
 	Mix_Chunk *NotesStretched[NotesNUM];
 
@@ -58,15 +67,19 @@ int main(int argc, char** argv)
 			if(read(fpga, &pbuttons_rd, PUSHBUTTON)){
 				if(pbuttons_rd == 14){
 					Mix_PlayChannel(2, Notes[3], 0);
+					// Printar F no D7
 				}
 				if(pbuttons_rd == 13){
 					Mix_PlayChannel(2, Notes[2], 0);
+					// Printar E no D7
 				}
 				if(pbuttons_rd == 11){
 					Mix_PlayChannel(2, Notes[1], 0);
+					// Printar D no D7
 				}
 				if(pbuttons_rd == 7){
 					Mix_PlayChannel(2, Notes[0], 0);
+					// Printar C no D7
 				}
 			}
 
@@ -77,15 +90,19 @@ int main(int argc, char** argv)
 			if(read(fpga, &pbuttons_rd, PUSHBUTTON)){
 				if(pbuttons_rd == 14){
 					Mix_PlayChannel(2, NotesStretched[3], 0);
+					// Printar F no D7
 				}
 				if(pbuttons_rd == 13){
 					Mix_PlayChannel(2, NotesStretched[2], 0);
+					// Printar E no D7
 				}
 				if(pbuttons_rd == 11){
 					Mix_PlayChannel(2, NotesStretched[1], 0);
+					// Printar D no D7
 				}
 				if(pbuttons_rd == 7){
 					Mix_PlayChannel(2, NotesStretched[0], 0);
+					// Printar C no D7
 				}
 			}
 		}
