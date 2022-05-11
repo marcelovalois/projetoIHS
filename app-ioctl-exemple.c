@@ -38,11 +38,17 @@ int main(int argc, char** argv)
 	// Quando apertar a nota, mostrar no display a nota em inglês
 
 
+    	Mix_Init(MIX_INIT_MID);
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	Mix_Chunk *Notes[NotesNUM];
 	Mix_Chunk *NotesStretched[NotesNUM];
 
 	LoadPiano(Notes);
 	LoadPianoStretched(NotesStretched);
+
+	//while(1) {
+		//Mix_PlayChannel(2, Notes[3], 0);
+	//}
 
 	if (argc < 2) {
 		printf("Syntax: %s <device file path>\n", argv[0]);
@@ -55,83 +61,99 @@ int main(int argc, char** argv)
 	}
 
 	while(1) {
-		write(fpga, &led_1, GREENLEDS);
-		write(fpga, &led_2, GREENLEDS);
-		write(fpga, &led_3, GREENLEDS);
-		write(fpga, &led_4, GREENLEDS);
+        //ligar todos os leds verdes
+        unsigned int data_green_led = 0xFFFFFFFF;
+	    ioctl(fd, WR_GREEN_LEDS);
+	    write(fd, &data_green_led, sizeof(data_green_led));
 
-		if(read(fpga, &switches_rd, SWITCHES) > 0){
-			// red_something = 1;
-
+        //ler do switch
+        unsigned int data_switch = 0;
+		ioctl(fd, RD_SWITCHES);
+	    read(fd, &data_switch, 1);
+		if(data_switch > 0){
+            unsigned int data_push = 0;
+            ioctl(fd, RD_PBUTTONS);
+	        read(fd, &data_push, 1);
+	        
 			// Notas normais
-			if(read(fpga, &pbuttons_rd, PUSHBUTTON)){
-				if(pbuttons_rd == 14){
-					Mix_PlayChannel(2, Notes[3], 0);
+			if(data_push == 14){
+                    //14 é o fá
+				printf("botao 4\n");
+				Mix_PlayChannel(2, Notes[3], 0);
+                unsigned int data_display_direita = 0x40404040;
+	            ioctl(fd, WR_R_DISPLAY);
+	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar F no D7
-				}
-				if(pbuttons_rd == 13){
-					Mix_PlayChannel(2, Notes[2], 0);
-					// Printar E no D7
-				}
-				if(pbuttons_rd == 11){
-					Mix_PlayChannel(2, Notes[1], 0);
-					// Printar D no D7
-				}
-				if(pbuttons_rd == 7){
-					Mix_PlayChannel(2, Notes[0], 0);
-					// Printar C no D7
-				}
 			}
+			if(data_push == 13){
+                    //13 é o mi
+				printf("botao 3\n");
+				Mix_PlayChannel(2, Notes[2], 0);
+                unsigned int data_display_direita = 0x40404040;
+	            ioctl(fd, WR_R_DISPLAY);
+	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+					// Printar E no D7
+			}
+		if(data_push == 11){
+                    //11 é o ré
+				printf("botao 2\n");
+				Mix_PlayChannel(2, Notes[1], 0);
+                unsigned int data_display_direita = 0x40404040;
+	            ioctl(fd, WR_R_DISPLAY);
+	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+					// Printar D no D7
+			}
+			if(data_push == 7){
+                    //7 é o dó
+				printf("botao 1\n");
+				Mix_PlayChannel(2, Notes[0], 0);
+                unsigned int data_display_direita = 0x40404040;
+	            ioctl(fd, WR_R_DISPLAY);
+	            retval = write(fd, &data_display_direita, sizeof(data_display_direita));
+					// Printar C no D7
+			}
+			
 
 		} else {
+            unsigned int data_push = 0;
+            ioctl(fd, RD_PBUTTONS);
+	        read(fd, &data_push, 1);
+	        
 			// red_something = 0;
 
 			// Notas alongadas
-			if(read(fpga, &pbuttons_rd, PUSHBUTTON)){
-				if(pbuttons_rd == 14){
+			
+				if(data_push == 14){
 					Mix_PlayChannel(2, NotesStretched[3], 0);
+                    unsigned int data_display_direita = 0x40404040;
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar F no D7
 				}
-				if(pbuttons_rd == 13){
+				if(data_push == 13){
 					Mix_PlayChannel(2, NotesStretched[2], 0);
+                    unsigned int data_display_direita = 0x40404040;
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar E no D7
 				}
-				if(pbuttons_rd == 11){
+				if(data_push == 11){
 					Mix_PlayChannel(2, NotesStretched[1], 0);
+                    unsigned int data_display_direita = 0x40404040;
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar D no D7
 				}
-				if(pbuttons_rd == 7){
+				if(data_push == 7){
 					Mix_PlayChannel(2, NotesStretched[0], 0);
+                    unsigned int data_display_direita = 0x40404040;
+	                ioctl(fd, WR_R_DISPLAY);
+	                retval = write(fd, &data_display_direita, sizeof(data_display_direita));
 					// Printar C no D7
 				}
 			}
-		}
-		
+        	sleep(1);
 	}
-
-	unsigned int data = 0;
-	unsigned int data1 = 0x79404040;
-	unsigned int data2 = 0x40404079;
-	unsigned int data3 = 0xFFFFFFFF;
-	unsigned int data4 = 0xFFFFFF55;
-
-	ioctl(fd, WR_R_DISPLAY);
-	retval = write(fd, &data2, sizeof(data));
-	ioctl(fd, WR_L_DISPLAY);
-	retval = write(fd, &data2, sizeof(data));
-	ioctl(fd, WR_RED_LEDS);
-	retval = write(fd, &data3, sizeof(data));
-	ioctl(fd, WR_GREEN_LEDS);
-	retval = write(fd, &data4, sizeof(data));
-
-	ioctl(fd, RD_SWITCHES);
-	read(fd, &data, 1);
-	printf("new data: 0x%X\n", data);
-	ioctl(fd, RD_PBUTTONS);
-	read(fd, &data, 1);
-	printf("new data: 0x%X\n", data);
-
-
 
 	close(fd);
 
@@ -151,3 +173,5 @@ void LoadPianoStretched(Mix_Chunk **Notes) {
     Notes[2] = Mix_LoadWAV("Samples/mi-stretched.wav");
     Notes[3] = Mix_LoadWAV("Samples/fa-stretched.wav");
 }
+
+	
