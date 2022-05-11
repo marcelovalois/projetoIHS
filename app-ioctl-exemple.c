@@ -57,5 +57,8 @@ int main(int argc, char** argv)
 }
 
 void LoadPiano(Mix_Chunk **Notes) {
-
+	Notes[0] = Mix_LoadWAV("Samples/do-stretched.aif");
+    Notes[1] = Mix_LoadWAV("Samples/re-stretched.aif");
+    Notes[2] = Mix_LoadWAV("Samples/mi-stretched.aif");
+    Notes[3] = Mix_LoadWAV("Samples/fa-stretched.aif");
 }
